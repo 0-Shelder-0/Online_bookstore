@@ -5,7 +5,7 @@ using Online_bookstore.Products;
 
 namespace Online_bookstore.Discount.PromoCode
 {
-    public class FreeBookPromoCode : IDiscount
+    public class FreeBookPromoCode : IPromoCode, IProductDiscount
     {
         public IProduct Product { get; }
 
@@ -14,11 +14,15 @@ namespace Online_bookstore.Discount.PromoCode
             Product = product;
         }
 
-        public int GetDiscount(IBasket basket)
+        public int GetTotalDiscount(IBasket basket)
         {
             return basket.GetProducts()
-                         .Where(product => Product.Equals(product))
-                         .Sum(product => product.Price);
+                         .Sum(GetDiscount);
+        }
+
+        public int GetDiscount(IProduct product)
+        {
+            return product.Equals(Product) ? product.Price : 0;
         }
 
         public override bool Equals(object obj)

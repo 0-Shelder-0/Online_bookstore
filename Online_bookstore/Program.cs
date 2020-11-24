@@ -1,6 +1,5 @@
 ﻿using Online_bookstore.Basket;
 using Online_bookstore.Discount.PromoCode;
-using Online_bookstore.Discount.Stock;
 using Online_bookstore.Products;
 
 namespace Online_bookstore
@@ -14,13 +13,15 @@ namespace Online_bookstore
             var book = new Book(ProductTypes.PaperBook, "A", "B", 200, true);
             var eBook = new Book(ProductTypes.EBook, "A", "B", 300, false);
 
-            basket.AddPromoCode(new EBookAsGiftStock("B"));
-            basket.RemovePromoCode(new EBookAsGiftStock("B"));
-
-            basket.AddPromoCode(new FreeBookPromoCode(book));
-
             basket.AddProduct(eBook);
-            basket.RemoveProduct(eBook);
+            basket.AddProduct(book);
+            basket.AddProduct(book);
+
+            basket.AddPromoCode(new AbsoluteDiscountPromoCode(book, 400));
+            basket.AddPromoCode(new AbsoluteDiscountPromoCode(eBook, 200));
+            basket.AddPromoCode(new PercentageDiscountPromoCode(eBook, 50));
+            basket.AddPromoCode(new FreeBookPromoCode(eBook));
+            basket.AddPromoCode(new FreeDeliveryPromoCode());
 
             basket.PrintTotal();
         }
