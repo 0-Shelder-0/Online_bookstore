@@ -1,6 +1,6 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Online_bookstore.Basket;
 using Online_bookstore.Products;
 
@@ -8,23 +8,6 @@ namespace Online_bookstore.Discount.Stock
 {
     public class EBookAsGiftStock : IStock, IBasketDiscount
     {
-        public int GetTotalDiscount(IBasket basket)
-        {
-            var discount = 0;
-
-            foreach (var (author, numberOfPaperBooks) in GetNumberOfPaperBooks(basket))
-            {
-                var booksAsGift = numberOfPaperBooks / 2;
-                if (booksAsGift > 0)
-                {
-                    discount += TakeEBooksThisAuthor(basket, author, booksAsGift)
-                       .Sum(product => product.Price);
-                }
-            }
-
-            return discount;
-        }
-
         public IEnumerable<IProduct> GetDiscountProducts(IBasket basket)
         {
             foreach (var (author, numberOfPaperBooks) in GetNumberOfPaperBooks(basket))

@@ -37,9 +37,7 @@ namespace Online_bookstore.Basket
         {
             var discounts = new List<IDiscount>();
             var implementations = Assembly.GetExecutingAssembly().ExportedTypes
-                                          .Where(type => typeof(IStock).IsAssignableFrom(type) &&
-                                                         !type.IsInterface &&
-                                                         !type.IsAbstract);
+                                          .Where(IsImplementedIStock);
             foreach (var type in implementations)
             {
                 var ctor = type.GetConstructor(new Type[] { });
@@ -50,6 +48,13 @@ namespace Online_bookstore.Basket
             }
 
             return discounts;
+        }
+
+        private static bool IsImplementedIStock(Type type)
+        {
+            return typeof(IStock).IsAssignableFrom(type) &&
+                   !type.IsInterface &&
+                   !type.IsAbstract;
         }
 
         public IEnumerable<IProduct> GetProducts()
@@ -141,12 +146,12 @@ namespace Online_bookstore.Basket
 
         private void ApplyBasketDiscount(IBasketDiscount basketDiscount)
         {
-            foreach (var product in basketDiscount.GetDiscountProducts(this))
+            foreach (var discountProduct in basketDiscount.GetDiscountProducts(this))
             {
-                foreach (var prod in _products.Where(p => ReferenceEquals(p, product)))
+                foreach (var product in _products.Where(prod => ReferenceEquals(prod, discountProduct)))
                 {
-                    _basketDiscount += basketDiscount.GetDiscount(prod);
-                    prod.ApplyDiscount(basketDiscount);
+                    _basketDiscount += basketDiscount.GetDiscount(product);
+                    product.ApplyDiscount(basketDiscount);
                 }
             }
         }

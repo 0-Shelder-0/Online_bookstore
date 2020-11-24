@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using Online_bookstore.Basket;
 using Online_bookstore.Products;
 
 namespace Online_bookstore.Discount.PromoCode
@@ -12,12 +10,6 @@ namespace Online_bookstore.Discount.PromoCode
         public FreeBookPromoCode(IProduct product)
         {
             Product = product;
-        }
-
-        public int GetTotalDiscount(IBasket basket)
-        {
-            return basket.GetProducts()
-                         .Sum(GetDiscount);
         }
 
         public int GetDiscount(IProduct product)

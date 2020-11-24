@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using Online_bookstore.Basket;
 using Online_bookstore.Products;
 
 namespace Online_bookstore.Discount.PromoCode
@@ -18,12 +16,6 @@ namespace Online_bookstore.Discount.PromoCode
             }
             Product = product;
             PercentageDiscount = percentageDiscount;
-        }
-
-        public int GetTotalDiscount(IBasket basket)
-        {
-            return basket.GetProducts()
-                         .Sum(GetDiscount);
         }
 
         public int GetDiscount(IProduct product)

@@ -1,7 +1,4 @@
 namespace Online_bookstore.Discount.PromoCode
 {
-    public interface IPromoCode : IDiscount
-    {
-        
-    }
+    public interface IPromoCode : IDiscount { }
 }
